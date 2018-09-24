@@ -17,24 +17,24 @@ with open('column_info.txt', 'r') as f:
 
 class ReusableForm(Form):
     reg = SelectField(label='Region:', choices=[
-        ('1501', 'San Francisco-Oakland SMSA (1973)'),
-        ('1502', 'Connecticut (1973)'),
-        ('1520', 'Metropolitan Detroit (1973)'),
-        ('1521', 'Hawaii (1973)'),
-        ('1522', 'Iowa (1973)'),
-        ('1523', 'New Mexico (1973)'),
-        ('1525', 'Seattle (Puget Sound) (1974)'),
-        ('1526', 'Utah (1973)'),
-        ('1527', 'Metropolitan Atlanta (1975)'),
-        ('1529', 'Alaska*'),
-        ('1531', 'San Jose-Monterey*'),
-        ('1535', 'Los Angeles*'),
-        ('1537', 'Rural Georgia*'),
-        ('1541', 'Greater California (excluding SF, Los Angeles & SJ)**'),
-        ('1542', 'Kentucky**'),
-        ('1543', 'Louisiana**'),
-        ('1544', 'New Jersey**'),
-        ('1547', 'Greater Georgia (excluding AT and RG)**')],
+        ('1501', 'San Francisco-Oakland'),
+        ('1502', 'Connecticut'),
+        ('1520', 'Metropolitan Detroit'),
+        ('1521', 'Hawaii'),
+        ('1522', 'Iowa'),
+        ('1523', 'New Mexico'),
+        ('1525', 'Seattle (Puget Sound)'),
+        ('1526', 'Utah'),
+        ('1527', 'Metropolitan Atlanta'),
+        ('1529', 'Alaska'),
+        ('1531', 'San Jose-Monterey'),
+        ('1535', 'Los Angeles'),
+        ('1537', 'Rural Georgia'),
+        ('1541', 'Greater California (excluding SF, LA & SJ)'),
+        ('1542', 'Kentucky'),
+        ('1543', 'Louisiana'),
+        ('1544', 'New Jersey'),
+        ('1547', 'Greater Georgia (excluding AT and RG)')],
         validators=[validators.required()])
     mar_stat = SelectField(label='Marital status:', choices=[
         ('1', 'Single (never married)'),
@@ -52,27 +52,27 @@ class ReusableForm(Form):
         ('05', 'Japanese'),
         ('06', 'Filipino'),
         ('07', 'Hawaiian'),
-        ('08', 'Korean (Effective with 1/1/1988 dx)'),
-        ('10', 'Vietnamese (Effective with 1/1/1988 dx)'),
-        ('11', 'Laotian (Effective with 1/1/1988 dx)'),
-        ('12', 'Hmong (Effective with 1/1/1988 dx)'),
-        ('13', 'Kampuchean (including Khmer and Cambodian) (Effective with 1/1/1988 dx)'),
-        ('14', 'Thai (Effective with 1/1/1994 dx)'),
-        ('15', 'Asian Indian or Pakistani, NOS (Effective with 1/1/1988 dx)'),
-        ('16', 'Asian Indian (Effective with 1/1/2010 dx)'),
-        ('17', 'Pakistani (Effective with 1/1/2010 dx)'),
-        ('20', 'Micronesian, NOS (Effective with 1/1/1991)'),
-        ('21', 'Chamorran (Effective with 1/1/1991 dx)'),
-        ('22', 'Guamanian, NOS (Effective with 1/1/1991 dx)'),
-        ('25', 'Polynesian, NOS (Effective with 1/1/1991 dx)'),
-        ('26', 'Tahitian (Effective with 1/1/1991 dx)'),
-        ('27', 'Samoan (Effective with 1/1/1991 dx)'),
-        ('28', 'Tongan (Effective with 1/1/1991 dx)'),
-        ('30', 'Melanesian, NOS (Effective with 1/1/1991 dx)'),
-        ('31', 'Fiji Islander (Effective with 1/1/1991 dx)'),
-        ('32', 'New Guinean (Effective with 1/1/1991 dx)'),
-        ('96', 'Other Asian, including Asian, NOS and Oriental, NOS (Effective with 1/1/1991 dx)'),
-        ('97', 'Pacific Islander, NOS (Effective with 1/1/1991 dx)'),
+        ('08', 'Korean'),
+        ('10', 'Vietnamese'),
+        ('11', 'Laotian'),
+        ('12', 'Hmong'),
+        ('13', 'Kampuchean (including Khmer and Cambodian)'),
+        ('14', 'Thai'),
+        ('15', 'Asian Indian or Pakistani, NOS'),
+        ('16', 'Asian Indian'),
+        ('17', 'Pakistani'),
+        ('20', 'Micronesian, NOS'),
+        ('21', 'Chamorran'),
+        ('22', 'Guamanian, NOS'),
+        ('25', 'Polynesian, NOS'),
+        ('26', 'Tahitian'),
+        ('27', 'Samoan'),
+        ('28', 'Tongan'),
+        ('30', 'Melanesian, NOS'),
+        ('31', 'Fiji Islander'),
+        ('32', 'New Guinean'),
+        ('96', 'Other Asian, including Asian, NOS and Oriental, NOS'),
+        ('97', 'Pacific Islander, NOS'),
         ('98', 'Other')],
         validators=[validators.required()])
     nhiade = SelectField(label='Hispanic origin:', choices=[
@@ -91,14 +91,32 @@ class ReusableForm(Form):
         ('2', 'Female')],
         validators=[validators.required()])
     age_dx = IntegerField(label='Age:', validators=[validators.required()])
-    mdxrecmp = IntegerField(label='MDXRECMP:', validators=[validators.required()])
-    beho3v = SelectField(label='BEHO3V:', choices=[
+    mdxrecmp = IntegerField(label='Diagnosis Month:', validators=[validators.required()])
+    year_dx = IntegerField(label='Diagnosis Year:', validators=[validators.required()])
+    beho3v = SelectField(label='Malignancies:', choices=[
         # ('0', 'Benign (Reportable for intracranial and CNS sites only)'),
-        ('1', 'Uncertain whether benign or malignant, borderline malignancy, low malignant potential, and uncertain malignant potential (Reportable for intracranial and CNS sites only)'),
-        ('2', 'Carcinoma in situ; intraepithelial; noninfiltrating; noninvasive'),
-        ('3', 'Malignant, primary site (invasive)')],
+        ('1', 'Uncertain whether benign or malignant, borderline malignancy, low malignant potential, and uncertain malignant potential'),
+        ('2', 'Carcinoma in situ; noninvasive'),
+        ('3', 'Malignant, primary site; invasive')],
         validators=[validators.required()])
-
+    lateral = SelectField(label='Side of tumor orgin:', choices=[
+        ('0', 'Not a paired site'),
+        ('1', 'Right: origin of primary'),
+        ('2', 'Left: origin of primary'),
+        ('3', 'Only one side involved, right or left origin unspecified'),
+        ('4', 'Bilateral involvement, lateral origin unknown; stated to be single primary'),
+        ('5', 'Paired site: midline tumor')],
+        validators=[validators.required()])
+    grade = SelectField(label='Tumor grade:', choices=[
+        ('1', 'Grade I; grade i; grade 1; well differentiated; differentiated, NOS'),
+        ('2', 'Grade II; grade ii; grade 2; moderately differentiated; moderately differentiated; intermediate differentiation'),
+        ('3', 'Grade III; grade iii; grade 3; poorly differentiated; differentiated'),
+        ('4', 'Grade IV; grade iv; grade 4; undifferentiated; anaplastic'),
+        ('5', 'T-cell; T-precursor'),
+        ('6', 'B-cell; Pre-B; B-Precursor'),
+        ('7', 'Null cell; Non T-non B'),
+        ('8', 'N K cell (natural killer cell)')],
+        validators=[validators.required()])
 
 @app.route('/', methods=['GET', 'POST'])
 def hello():
@@ -145,10 +163,25 @@ def hello():
         X[0, mdxrecmp_idx] = mdxrecmp
         print('mdxrecmp_idx', mdxrecmp_idx)
 
+        year_dx = int(request.form['year_dx'])
+        year_dx_idx = column_info.index('YEAR_DX')
+        X[0, year_dx_idx] = year_dx
+        print('year_dx_idx', year_dx_idx)
+
         beho3v = int(request.form['beho3v'])
         beho3v_idx = column_info.index('BEHO3V__' + str(beho3v))
         X[0, beho3v_idx] = 1.0
         print('beho3v_idx', beho3v_idx)
+
+        lateral = int(request.form['lateral'])
+        lateral_idx = column_info.index('LATERAL__' + str(lateral))
+        X[0, lateral_idx] = 1.0
+        print('lateral_idx', lateral_idx)
+
+        grade = int(request.form['grade'])
+        grade_idx = column_info.index('GRADE__' + str(grade))
+        X[0, grade_idx] = 1.0
+        print('grade_idx', grade_idx)
 
         print(X)
 
@@ -156,7 +189,7 @@ def hello():
         y_prob = model.predict_proba(X)
 
         if form.validate():
-            flash('5-year overall survival after surgery: {} %'.format(y_prob[0][1] * 100))
+            flash('5-year survival probability after surgery: {} %'.format(y_prob[0][1] * 100))
         else:
             flash('Error: All the form fields are required. ')
 
