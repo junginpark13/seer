@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
 # SciKit-Learn related
 model = joblib.load('model_rf.pickle')
-with open('column_info.txt', 'r') as f:
+with open('feature_selected_column_info.txt', 'r') as f:
     column_info = f.read().split()
 
 
@@ -128,72 +128,48 @@ def hello():
         num_features = len(column_info)
         X = np.zeros((1, num_features), dtype=np.float32)
 
-        reg = int(request.form['reg'])
-        reg_idx = column_info.index('REG__' + str(reg))
-        X[0, reg_idx] = 1.0
-        print('reg_idx', reg_idx)
+        def add_categorical(name):
+            val = int(request.form[name])
+            feat_name = name.upper() + '__' + str(val)
+            if feat_name in column_info:
+                feat_idx = column_info.index(feat_name)
+                X[0, feat_idx] = 1.0
+            else:
+                print('Feature {} not found'.format(feat_name))
 
-        mar_stat = int(request.form['mar_stat'])
-        mar_stat_idx = column_info.index('MAR_STAT__' + str(mar_stat))
-        X[0, mar_stat_idx] = 1.0
-        print('mar_stat_idx', mar_stat_idx)
+        def add_numeric(name):
+            val = float(request.form[name])
+            feat_name = name.upper()
+            if feat_name in column_info:
+                feat_idx = column_info.index(feat_name)
+                X[0, feat_idx] = val
+            else:
+                print('Feature {} not found'.format(feat_name))
+        
+        add_categorical('reg')
+        add_categorical('mar_stat')
+        add_categorical('race1v')
+        add_categorical('nhiade')
+        add_categorical('sex')
+        add_categorical('beho3v')
+        add_categorical('lateral')
+        add_categorical('grade')
 
-        race1v = int(request.form['race1v'])
-        race1v_idx = column_info.index('RACE1V__' + str(race1v))
-        X[0, race1v_idx] = 1.0
-        print('race1v_idx', race1v_idx)
-
-        nhiade = int(request.form['nhiade'])
-        nhiade_idx = column_info.index('NHIADE__' + str(nhiade))
-        X[0, nhiade_idx] = 1.0
-        print('nhiade_idx', nhiade_idx)
-
-        sex = int(request.form['sex'])
-        sex_idx = column_info.index('SEX__' + str(sex))
-        X[0, sex_idx] = 1.0
-        print('sex_idx', sex_idx)
-
-        age_dx = int(request.form['age_dx'])
-        age_dx_idx = column_info.index('AGE_DX')
-        X[0, age_dx_idx] = age_dx
-        print('age_dx_idx', age_dx_idx)
-
-        mdxrecmp = int(request.form['mdxrecmp'])
-        mdxrecmp_idx = column_info.index('MDXRECMP')
-        X[0, mdxrecmp_idx] = mdxrecmp
-        print('mdxrecmp_idx', mdxrecmp_idx)
-
-        year_dx = int(request.form['year_dx'])
-        year_dx_idx = column_info.index('YEAR_DX')
-        X[0, year_dx_idx] = year_dx
-        print('year_dx_idx', year_dx_idx)
-
-        beho3v = int(request.form['beho3v'])
-        beho3v_idx = column_info.index('BEHO3V__' + str(beho3v))
-        X[0, beho3v_idx] = 1.0
-        print('beho3v_idx', beho3v_idx)
-
-        lateral = int(request.form['lateral'])
-        lateral_idx = column_info.index('LATERAL__' + str(lateral))
-        X[0, lateral_idx] = 1.0
-        print('lateral_idx', lateral_idx)
-
-        grade = int(request.form['grade'])
-        grade_idx = column_info.index('GRADE__' + str(grade))
-        X[0, grade_idx] = 1.0
-        print('grade_idx', grade_idx)
-
-        print(X)
+        add_numeric('age_dx')
+        add_numeric('mdxrecmp')
+        add_numeric('year_dx')
 
         y = model.predict(X)
         y_prob = model.predict_proba(X)
+
+        print(y, y_prob)
 
         if form.validate():
             flash('5-year survival probability after surgery: {} %'.format(y_prob[0][1] * 100))
         else:
             flash('Error: All the form fields are required. ')
 
-    return render_template('hello.html', form=form)
+    return render_template('main.html', form=form)
 
 
 if __name__ == '__main__':
