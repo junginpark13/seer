@@ -10,6 +10,7 @@ app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
 # SciKit-Learn related
+scalar = joblib.load('scalar.pickle')
 model = joblib.load('model_rf.pickle')
 with open('feature_selected_column_info.txt', 'r') as f:
     column_info = f.read().split()
@@ -159,13 +160,14 @@ def hello():
         add_numeric('mdxrecmp')
         add_numeric('year_dx')
 
-        y = model.predict(X)
-        y_prob = model.predict_proba(X)
+        X_scaled = scalar.transform(X)
+        y = model.predict(X_scaled)
+        y_prob = model.predict_proba(X_scaled)
 
         print(y, y_prob)
 
         if form.validate():
-            flash('5-year survival probability after surgery: {} %'.format(y_prob[0][1] * 100))
+            flash('5-year survival probability after surgery: {} %'.format(y_prob[0][y[0]] * 100))
         else:
             flash('Error: All the form fields are required. ')
 
