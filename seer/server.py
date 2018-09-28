@@ -17,26 +17,7 @@ with open('feature_selected_column_info.txt', 'r') as f:
 
 
 class ReusableForm(Form):
-    reg = SelectField(label='Region:', choices=[
-        ('1501', 'San Francisco-Oakland'),
-        ('1502', 'Connecticut'),
-        ('1520', 'Metropolitan Detroit'),
-        ('1521', 'Hawaii'),
-        ('1522', 'Iowa'),
-        ('1523', 'New Mexico'),
-        ('1525', 'Seattle (Puget Sound)'),
-        ('1526', 'Utah'),
-        ('1527', 'Metropolitan Atlanta'),
-        ('1529', 'Alaska'),
-        ('1531', 'San Jose-Monterey'),
-        ('1535', 'Los Angeles'),
-        ('1537', 'Rural Georgia'),
-        ('1541', 'Greater California (excluding SF, LA & SJ)'),
-        ('1542', 'Kentucky'),
-        ('1543', 'Louisiana'),
-        ('1544', 'New Jersey'),
-        ('1547', 'Greater Georgia (excluding AT and RG)')],
-        validators=[validators.required()])
+
     mar_stat = SelectField(label='Marital status:', choices=[
         ('1', 'Single (never married)'),
         ('2', 'Married (including common law)'),
@@ -87,13 +68,40 @@ class ReusableForm(Form):
         ('7', 'NHIA Surname Match Only'),
         ('8', 'Dominican Republic')],
         validators=[validators.required()])
-    sex = SelectField(label='Hispanic origin:', choices=[
+    sex = SelectField(label='Gender:', choices=[
         ('1', 'Male'),
         ('2', 'Female')],
         validators=[validators.required()])
     age_dx = IntegerField(label='Age:', validators=[validators.required()])
     mdxrecmp = IntegerField(label='Diagnosis Month:', validators=[validators.required()])
     year_dx = IntegerField(label='Diagnosis Year:', validators=[validators.required()])
+    seq_num = SelectField(label='Tumor sequence:', choices=[
+        ('00', '0'),
+        ('01', '1'),
+        ('02', '2')],
+        validators=[validators.required()])
+    primsite = SelectField(label='Primary site (ICD-O-3):', choices=[
+        ('C180', 'Cecum'),
+        ('C182', 'Ascending colon'),
+        ('C183', 'Hepatic flexure of colon'),
+        ('C184', 'Transverse colon'),
+        ('C185', 'Splenic flexure of colon'),
+        ('C186', 'Descending colon'),
+        ('C187', 'Sigmoid colon'),
+        ('C199', 'Rectosigmoid junction'),
+        ('C209', 'Rectum, NOS')],
+        validators=[validators.required()])
+    histo2v = SelectField(label='Tumor morphology:', choices=[
+        ('8140', 'Adenoma, NOS,Adenocarcinoma in situ, NOS'),
+        ('8210', 'Adenomatous polyp, NOS, Adenocarcinoma in adenomatous polyp'),
+        ('8261', 'Villous adenoma, NOS, Adenocarcinoma in villous adenoma'),
+        ('8263', 'Tubulovillous adenoma, NOS, Adenocarcinoma in tubolovillous adenoma'),
+        ('8480', 'Mucinous adenoma, Mucinous adenocarcinoma')],
+        validators=[validators.required()])
+
+
+
+
     beho3v = SelectField(label='Malignancies:', choices=[
         # ('0', 'Benign (Reportable for intracranial and CNS sites only)'),
         ('1', 'Uncertain whether benign or malignant, borderline malignancy, low malignant potential, and uncertain malignant potential'),
@@ -130,7 +138,7 @@ def hello():
         X = np.zeros((1, num_features), dtype=np.float32)
 
         def add_categorical(name):
-            val = int(request.form[name])
+            val = request.form[name]
             feat_name = name.upper() + '__' + str(val)
             if feat_name in column_info:
                 feat_idx = column_info.index(feat_name)
@@ -147,7 +155,6 @@ def hello():
             else:
                 print('Feature {} not found'.format(feat_name))
         
-        add_categorical('reg')
         add_categorical('mar_stat')
         add_categorical('race1v')
         add_categorical('nhiade')
@@ -155,6 +162,9 @@ def hello():
         add_categorical('beho3v')
         add_categorical('lateral')
         add_categorical('grade')
+        add_categorical('primsite')
+        add_categorical('seq_num')
+        add_categorical('histo2v')
 
         add_numeric('age_dx')
         add_numeric('mdxrecmp')
@@ -167,7 +177,7 @@ def hello():
         print(y, y_prob)
 
         if form.validate():
-            flash('5-year survival probability after surgery: {} %'.format(y_prob[0][y[0]] * 100))
+            flash('5-year survival probability after surgery: {} %'.format(y_prob[0][1] * 100))
         else:
             flash('Error: All the form fields are required. ')
 

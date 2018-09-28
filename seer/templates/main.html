@@ -1,79 +1,127 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>Reusable Form Demo</title>
-    <link rel="stylesheet" media="screen" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 
 <body>
     <div class="container">
-        <h2>Flask Web Form</h2>
-        <form action="" method="post" role="form">
-            {{ form.csrf }}
-            <div class="form-group">
-                <label for="reg">Region:</label>
-                {{ form.reg }}
-                <br />
-                <label for="mar_stat">Marital status:</label>
-                {{ form.mar_stat }}
-                <br />
-                <label for="race1v">Race:</label>
-                {{ form.race1v }}
-                <br />
-                <label for="nhiade">Hispanic origin:</label>
-                {{ form.nhiade }}
-                <br />
-                <label for="sex">Sex:</label>
-                {{ form.sex }}
-                <br />
-                <label for="age_dx">Age:</label>
-                {{ form.age_dx }}
-                <br />
-                <label for="mdxrecmp">Diagnosis month:</label>
-                {{ form.mdxrecmp }}
-                <br />
-                <label for="year_dx">Diagnosis year:</label>
-                {{ form.year_dx }}
-                <br />
-                <label for="beho3v">Malignancies:</label>
-                {{ form.beho3v }}
-                <br />
-                <label for="lateral">Side of tumor origin:</label>
-                {{ form.lateral }}
-                 <br />
-                 <label for="grade">Tumor grade:</label>
-                {{ form.grade }}
+        <div class="py-5 text-center">
+            <h2>Colo-Survival</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12 order-md-1">
+                <h4 class="mb-3">Survey Form</h4>
+                <form action="" method="post" role="form">
+                    <div class="mb-3">
+                        <label for="age_dx">Age at diagnosis:</label>
+                        {{ form.age_dx(class_="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="race1v">Race:</label>
+                        {{ form.race1v(class_="custom-select d-block w-100") }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nhiade">Hispanic origin:</label>
+                        {{ form.nhiade(class_="custom-select d-block w-100") }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="gender">Gender:</label>
+                        {{ form.sex(class_="custom-select d-block w-100") }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="mar_stat">Marital status:</label>
+                        {{ form.mar_stat(class_="custom-select d-block w-100") }}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="year_dx">Diagnosis year:</label>
+                            {{ form.year_dx(class_="form-control") }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="mdxrecmp">Diagnosis month:</label>
+                            {{ form.mdxrecmp(class_="form-control") }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="primsite">Primary site (ICD-O-3):</label>
+                        {{ form.primsite(class_="custom-select d-block w-100") }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="seq_num">Tumor sequence:</label>
+                        {{ form.seq_num(class_="custom-select d-block w-100") }}
+                    </div>
+                     <div class="mb-3">
+                        <label for="histo2v">Tumor morphology:</label>
+                        {{ form.histo2v(class_="custom-select d-block w-100") }}
+                    </div>
+
+
+
+
+                    <div class="mb-3">
+                        <label for="beho3v">Malignancies:</label>
+                        {{ form.beho3v(class_="custom-select d-block w-100") }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lateral">Side of tumor origin:</label>
+                        {{ form.lateral(class_="custom-select d-block w-100") }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="grade">Tumor grade:</label>
+                        {{ form.grade(class_="custom-select d-block w-100") }}
+                    </div>
+
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <hr class="mb-4">
+
+                    {% for message in messages %}
+                    {% if "Error" not in message[1]: %}
+                    <div class="alert alert-info">
+                        {{ message[1] }}
+                    </div>
+                    {% endif %}
+
+                    {% if "Error" in message[1]: %}
+                    <div class="alert alert-warning">
+                        {{ message[1] }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </form>
             </div>
-            <button type="submit" class="btn btn-success">Submit</button>
-        </form>
-
-        <br>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-
-        {% for message in messages %}
-        {% if "Error" not in message[1]: %}
-        <div class="alert alert-info">
-            <strong>Success! </strong> {{ message[1] }}
         </div>
-        {% endif %}
 
-        {% if "Error" in message[1]: %}
-        <div class="alert alert-warning">
-            {{ message[1] }}
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">&copy; 2018 Colo-Survival</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Support</a></li>
+            </ul>
+        </footer>
+    </div>
 
-    </div>
-    <br>
-    </div>
-    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
