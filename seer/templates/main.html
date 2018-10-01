@@ -8,19 +8,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 
-<body>
+<body class="bg-light">
     <div class="container">
-        <div class="py-5 text-center">
-            <h2>Colo-Survival</h2>
+        <div class="py-5">
+            <h1>Colo-Survival</h1>
         </div>
         <div class="row">
             <div class="col-md-12 order-md-1">
                 <h4 class="mb-3">Survey Form</h4>
-                <form action="" method="post" role="form">
-                    <div class="mb-3">
-                        <label for="age_dx">Age at diagnosis:</label>
-                        {{ form.age_dx(class_="form-control") }}
+                <form action="result" method="post" role="form">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="age_dx">Age at diagnosis:</label>
+                            {{ form.age_dx(class_="form-control") }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="age_1rec">Age group:</label>
+                            {{ form. age_1rec(class_="custom-select d-block w-100") }}
+                        </div>
                     </div>
+
                     <div class="mb-3">
                         <label for="race1v">Race:</label>
                         {{ form.race1v(class_="custom-select d-block w-100") }}
@@ -30,7 +37,6 @@
                         <label for="nhiade">Hispanic origin:</label>
                         {{ form.nhiade(class_="custom-select d-block w-100") }}
                     </div>
-
                     <div class="mb-3">
                         <label for="gender">Gender:</label>
                         {{ form.sex(class_="custom-select d-block w-100") }}
@@ -50,20 +56,54 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="primsite">Primary site (ICD-O-3):</label>
-                        {{ form.primsite(class_="custom-select d-block w-100") }}
+                        <label for="grade">Tumor grade:</label>
+                        {{ form.grade(class_="custom-select d-block w-100") }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="hst_stga">Tumor stage:</label>
+                        {{ form.hst_stga(class_="custom-select d-block w-100") }}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="primsite">Primary site - I:</label>
+                            {{ form.primsite(class_="custom-select d-block w-100") }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="icdot10v">Primary site - II:</label>
+                            {{ form.icdot10v(class_="custom-select d-block w-100") }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="cs0204schema">Particular schema:</label>
+                        {{ form.cs0204schema(class_="custom-select d-block w-100") }}
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="histrec">Disease groups:</label>
+                        {{ form.histrec(class_="custom-select d-block w-100") }}
                     </div>
                     <div class="mb-3">
                         <label for="seq_num">Tumor sequence:</label>
                         {{ form.seq_num(class_="custom-select d-block w-100") }}
                     </div>
-                     <div class="mb-3">
-                        <label for="histo2v">Tumor morphology:</label>
-                        {{ form.histo2v(class_="custom-select d-block w-100") }}
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="histo2v">Tumor morphology:</label>
+                            {{ form.histo2v(class_="custom-select d-block w-100") }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="histo3v">Tumor histology:</label>
+                            {{ form.histo3v(class_="custom-select d-block w-100") }}
+                        </div>
                     </div>
 
-
-
+                    <div class="mb-3">
+                        <label for="rept_src">Reporting source:</label>
+                        {{ form.rept_src(class_="custom-select d-block w-100") }}
+                    </div>
 
                     <div class="mb-3">
                         <label for="beho3v">Malignancies:</label>
@@ -75,13 +115,8 @@
                         {{ form.lateral(class_="custom-select d-block w-100") }}
                     </div>
 
-                    <div class="mb-3">
-                        <label for="grade">Tumor grade:</label>
-                        {{ form.grade(class_="custom-select d-block w-100") }}
-                    </div>
-
                     <hr class="mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+                    <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="javascript: form.action='/result';">Submit</button>
 
                     {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
