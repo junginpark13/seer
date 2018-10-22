@@ -1,1 +1,1 @@
-# insight_projects
+# SEER_projects
